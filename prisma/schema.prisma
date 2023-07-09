@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+
+// Creating a model to check
+model Store{
+    id            String      @id @default(uuid())
+    name          String
+    userId        String
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt   
+}
