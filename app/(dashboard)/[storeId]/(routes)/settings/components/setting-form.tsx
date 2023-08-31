@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import Heading from "@/components/ui/heading"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
+import { useOrigin } from "@/hooks/use-origin"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Store } from "@prisma/client"
 import axios from "axios"
@@ -39,9 +40,14 @@ const SettingForm: React.FC<SettingFormProps> = ({ initialData }) => {
 
     const params = useParams();
     const router = useRouter();
+    const origin = useOrigin();
 
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false);
+
+
+    
+    
 
     const onSubmit =async (data:SettingFormValues) => {
         try {
@@ -104,7 +110,7 @@ const SettingForm: React.FC<SettingFormProps> = ({ initialData }) => {
                         <FormField
                             control={form.control}
                             name="name"
-                            render={({ field }) => (
+                            render={({ field }:{field: any}) => (
                                 <>
                                     <FormItem>
                                         <FormLabel>Name</FormLabel>
@@ -120,10 +126,16 @@ const SettingForm: React.FC<SettingFormProps> = ({ initialData }) => {
                 </form>
             </Form>
             <Separator />
-            <ApiAlert title="TEST" description="TEST" variant="admin"/>
+            <ApiAlert
+                title="NEXT_PUBLIC_API_URL"
+                description={`${origin}/api/${params.storeId}`}
+                variant="public"
+            />
 
         </>
     )
 }
 
 export default SettingForm
+
+

@@ -11,9 +11,82 @@ datasource db {
 
 // Creating a model to check
 model Store{
-    id            String      @id @default(uuid())
+    id            String              @id @default(uuid())
     name          String
     userId        String
-    createdAt     DateTime    @default(now())
-    updatedAt     DateTime    @updatedAt   
+    billboards    Billboard[]         @relation("StoreToBillboard")
+    categories    Category[]        @relation("StoreToCategory")
+    // colors        Color[]            @relation("StoreToColor")
+    // products      Product[]           @relation("StoreToProduct")
+    // orders        Order[]             @relation("StoreToOrder")
+    // sizes         Size[]              @relation("StoreToSize")
+    
+    createdAt     DateTime            @default(now())
+    updatedAt     DateTime            @updatedAt   
 }
+
+model Billboard {
+  id              String              @id @default(uuid())
+  storeId         String
+  store           Store               @relation("StoreToBillboard",fields: [storeId], references: [id ])
+  imageUrl        String
+  label           String
+   categories     Category[]
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  @@index([storeId])
+}
+
+
+model Category {
+  id              String               @id @default(uuid())
+  billboardId     String
+  billboard       Billboard            @relation(fields: [billboardId], references: [id])
+  storeId         String
+  store           Store                @relation("StoreToCategory",fields: [storeId], references: [id])
+  name            String
+
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@index([billboardId])
+  @@index([storeId])
+}
+
+// model Color {
+//   id              String                @id @default(uuid())
+//   storeId         String
+//   store           Store                 @relation("StoreToColor",fields: [storeId], references: [id])
+
+//   @@index([storeId])
+// }
+
+// model Order{
+//   id String @id @default(uuid())
+//   storeId         String
+//   store           Store                  @relation("StoreToOrder",fields: [storeId], references: [id])
+
+//   @@index([storeId])
+// }
+
+// model Product{
+//   id String @id @default(uuid())
+//   storeId         String
+//   store           Store                  @relation("StoreToProduct",fields: [storeId], references: [id])
+
+//   @@index([storeId])
+// }
+
+
+// model Size{
+//   id              String                  @id @default(uuid())
+//   storeId         String
+//   store Store @relation("StoreToSize",fields: [storeId], references: [id])
+
+
+
+//   @@index([storeId])
+// }
+
+
