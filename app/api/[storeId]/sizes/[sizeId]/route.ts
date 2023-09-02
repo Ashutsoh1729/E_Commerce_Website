@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
     try {
-        
+
     } catch (error) {
         console.log(error);
         return NextResponse.json('Internal Server Error', { status: 500 });
@@ -17,12 +17,12 @@ export async function GET(req: Request) {
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { colorId: string, storeId: string } }
+    { params }: { params: { sizeId: string, storeId: string } }
 ) {
     try {
-        
+
         const { userId } = auth();
-        const colorId = params.colorId;
+        const sizeId = params.sizeId;
         const storeId = params.storeId;
         const body = await req.json();
 
@@ -40,7 +40,7 @@ export async function PATCH(
         if (!value) {
             return NextResponse.json("Billboard Name is required.", { status: 400 })
         }
-        if (!colorId) {
+        if (!sizeId) {
             return NextResponse.json("Category Id is required.", { status: 400 })
         }
 
@@ -54,9 +54,9 @@ export async function PATCH(
             return NextResponse.json("Unauthorized", { status: 403 })
         }
 
-        const billboard = await prismadb.color.update({
+        const size = await prismadb.size.update({
             where: {
-                id: colorId
+                id: sizeId
             },
             data: {
                 name,
@@ -64,7 +64,7 @@ export async function PATCH(
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(size)
 
 
 
@@ -78,16 +78,16 @@ export async function PATCH(
 
 export async function DELETE(
     req: Request,
-    {params}:{params:{colorId: string, storeId: string}}
+    { params }: { params: { sizeId: string, storeId: string } }
 ) {
     try {
-        
+
 
         const { userId } = auth();
-        const colorId = params.colorId;
+        const sizeId = params.sizeId;
         const storeId = params.storeId;
 
-        if (!colorId) {
+        if (!sizeId) {
             return NextResponse.json("BillboardId is required", { status: 400 })
         }
         if (!userId) {
@@ -104,12 +104,12 @@ export async function DELETE(
             return NextResponse.json("Unauthorized", { status: 403 })
         }
 
-        const color = await prismadb.color.delete({
+        const size = await prismadb.size.delete({
             where: {
-                id: colorId,
+                id: sizeId,
             }
         })
-        return NextResponse.json(color)
+        return NextResponse.json(size)
 
     } catch (error) {
         console.log(error);

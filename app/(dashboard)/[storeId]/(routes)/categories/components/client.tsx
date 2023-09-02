@@ -7,9 +7,10 @@ import { Category } from '@prisma/client'
 import { Plus } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
+import { CategoryColumn, columns } from './columns'
 
 interface CategoryClientProps {
-  data: Category[]
+  data: CategoryColumn[]
 }
 
 const CategoryClient: React.FC<CategoryClientProps> = ({ data }) => {
@@ -30,7 +31,7 @@ const CategoryClient: React.FC<CategoryClientProps> = ({ data }) => {
       </div>
       <Separator className='my-2'/>
       <div className=' body mt-4'>
-        {/* <DataTable/> */}
+        <DataTable columns={columns} data={data} searchKey={'name'}/>
       </div>
       
     </>

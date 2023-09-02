@@ -88,7 +88,7 @@ export async function DELETE(
 
         const { userId } = auth();
         const billboardId = params.billboardId;
-        if (!params.billboardId) {
+        if (!billboardId) {
             return NextResponse.json("BillboardId is required", { status: 400 })
         }
         if (!userId) {

@@ -1,7 +1,8 @@
 import prismadb from '@/lib/prismadb';
 import React from 'react'
-import CategoryFrom from '../../billboards/[billboardsId]/components/billboard-form';
-// import BillboardsFrom from './components/billboard-form';
+import CategoryFrom from './components/category-form';
+
+
 
 interface IParams {
   params: {
@@ -20,10 +21,19 @@ const CategoryPage = async ({ params }: IParams) => {
     }
   })
 
+  const billboards = await prismadb.billboard.findMany({
+    where: {
+      storeId: params.storeId,
+    },
+    orderBy: {
+      createdAt: "desc"
+    }
+  })
+
   return (
     <div className=' flex flex-col'>
       <div className=' flex-1 space-y-4 p-8 pt-6'>
-        <CategoryFrom initialData={category} />
+        <CategoryFrom initialData={category} billboards={billboards} />
       </div>
     </div>
   )
